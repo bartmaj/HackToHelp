@@ -4,12 +4,20 @@
 </head>
 
 <body>
+
+<div id="container">
+  <h1 class="title">
+  Elizabeth River Trail
+  </h1>
+	  <p class="right">{{> loginButtons}}</p>
+    Hello, {{currentUser.username}} !
+    </div>
     {{> map}}
 </body>
 
 <template name="map">
     <div id="container">
-      <h1 class="title">Elizabeth River Trail</h1>
+      
       <div id="map" class="map"></div>
       <div class="notice">
         Double-click on map creates a marker<br>

@@ -12,9 +12,10 @@ var Markers = new Meteor.Collection('markers');
 Meteor.subscribe('markers');
 
 Template.map.rendered = function() {
-  L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
-  var map = L.map('map', {
+  L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
+ 
+ var map = L.map('map', {
     doubleClickZoom: false
   }).setView([36.850, -76.285], 13);
 
@@ -47,3 +48,11 @@ Template.map.rendered = function() {
     }
   });
 };
+
+if (Meteor.isClient) {
+  Accounts.ui.config({
+
+    passwordSignupFields: "USERNAME_ONLY"
+
+  });
+}
