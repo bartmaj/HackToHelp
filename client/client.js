@@ -16,7 +16,7 @@ Template.map.rendered = function() {
 
   var map = L.map('map', {
     doubleClickZoom: false
-  }).setView([49.25044, -123.137], 13);
+  }).setView([36.850, -76.285], 13);
 
   L.tileLayer.provider('Thunderforest.Outdoors').addTo(map);
 
