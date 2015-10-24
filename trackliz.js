@@ -1,5 +1,12 @@
 Markers = new Mongo.Collection('markers');
 
+if (Meteor.isClient)
+{
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+}
+
 if (Meteor.isClient) {
     Template.map.onCreated(function() {
         GoogleMaps.ready('map', function(map) {
@@ -78,5 +85,7 @@ if (Meteor.isClient) {
     Meteor.startup(function() {
         // code to run on server at startup
     });
+
+
 }
 	
