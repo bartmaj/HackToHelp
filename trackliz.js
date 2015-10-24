@@ -29,11 +29,7 @@ if (Meteor.isClient) {
                         position: new google.maps.LatLng(document.lat, document.lng),
                         map: map.instance,
                         id: document._id
-                    });
-
-
-
-                   
+                    });                   
 
 
 
@@ -50,11 +46,18 @@ if (Meteor.isClient) {
 					
 					 //ADD marker listener here so that a new window can be popped up
 					 
-					var dbMarker = Markers.find({"_id": marker.id });
+					var dbMarker = Markers.findOne(marker.id);
                     var contentString = '<div id="content">' +
-                        '<div id="siteNotice">' + 'lat: ' + dbMarker.lat + 'lng:' + dbMarker.lng +
-                        '</div>' + 
-                        '</div>';
+					'<h1> Current Info on this issue </h1>' +
+					'<p>Latitude: '+ dbMarker.lat + '</p>'+
+					'<p>Longitube: '+ dbMarker.lng + '</p>' +			
+					'Issue Description: <input type="text" name="issue_desc"><br>' +
+					 '<form action="">' + 'Comments: <br>' + 
+					 '<textarea name="comments" rows="4" cols="30">' + 
+					 'Tell us about it' + '</textarea><br>' +
+					 '<input type="button" name="thumpup" value="Thumbup">' +
+					 '<input type="button" name="thumpup" value="Thumbup">' +
+					 '</form>"' + '</div>';
 
                     var infowindow = new google.maps.InfoWindow({
                         content: contentString
