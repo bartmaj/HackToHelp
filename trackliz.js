@@ -16,9 +16,9 @@ if (Meteor.isClient) {
                 Markers.insert({
                     lat: event.latLng.lat(),
                     lng: event.latLng.lng(),
-					score: 0,
-					issue_desc: "please describe the issue",
-					comments: "tell us about it",
+                    score: 0,
+                    issue_desc: "please describe the issue",
+                    comments: "tell us about it",
                 });
             });
 
@@ -39,8 +39,8 @@ if (Meteor.isClient) {
                         position: new google.maps.LatLng(document.lat, document.lng),
                         map: map.instance,
                         id: document._id
-                    });                   
-					
+                    });
+
                     google.maps.event.addListener(marker, 'dragend', function(event) {
                         Markers.update(marker.id, {
                             $set: {
@@ -49,27 +49,31 @@ if (Meteor.isClient) {
                             }
                         });
                     });
-					
+
 
                     markers[document._id] = marker;
-					
-					 //ADD marker listener here so that a new window can be popped up
-					 
-					var dbMarker = Markers.findOne(marker.id);
+
+                    //ADD marker listener here so that a new window can be popped up
+
+                    var dbMarker = Markers.findOne(marker.id);
                     var contentString = '<div id="content">' +
-					'<h1> Current Info:</h1>' +
-					'<p>Latitude: '+ dbMarker.lat + '</p>'+
-					'<p>Longitube: '+ dbMarker.lng + '</p>' +
-					'<p>Scores: '+ dbMarker.score + '</p>' +
-					'<p>-------------------------</p>' +
-					'Issue Description: <br>' +
-					'<input type="text" name="' + dbMarker.issue_desc + '"><br>' +
-					 '<form action="">' + 'Comments: <br>' + 
-					 '<textarea name="comments" rows="4" cols="30">' + 
-					 dbMarker.comments + '</textarea><br>' +
-					 '<input type="button" name="thumbup" value="Thumbup">' +
-					 '<input type="button" name="thumbdown" value="ThumbDown">' +
-					 '</form>"' + '</div>';
+                        '<div id="marker_info">' +
+                        '<h1> Current Info:</h1>' +
+                        '<p>Latitude: ' + dbMarker.lat + '</p>' +
+                        '<p>Longitube: ' + dbMarker.lng + '</p>' +
+                        '<p>Scores: ' + dbMarker.score + '</p>' +
+                        '<p>-------------------------</p>' +
+						'</div> ' +
+						'<form class="info_box">' +
+                        'Issue Description: <br>' +
+                        '<input type="text" name="' + dbMarker.issue_desc + '"><br>' +
+                        'Comments: <br>' +
+                        '<textarea name="comments" rows="4" cols="30">' +
+                        dbMarker.comments + '</textarea><br>' +
+                        '<input type="button" name="thumbup" value="Thumbup" >' +
+                        '<input type="button" name="thumbdown" value="ThumbDown" >' +
+                        '</form>"' +
+                        '</div>';
 
                     var infowindow = new google.maps.InfoWindow({
                         content: contentString
@@ -79,6 +83,37 @@ if (Meteor.isClient) {
                         infowindow.open(map.instance, marker);
                     });
 					
+					
+					infowindow.addEventListener('rightclick', function(){
+						infowindow.getElementById("thumbup").addEventListener("click", function() {
+							//alert("Hello World!");
+							infowindow.close();
+							Markers.update(marker.id, {
+								$set: {
+									score: 10
+								}
+							});
+							infowindow.open(map.instance, marker);
+						
+						});	
+						infowindow.close();
+					});
+					
+					/*
+					infowindow.getElementById("thumbup").addEventListener("click", function() {
+						//alert("Hello World!");
+						//dbMarker.score = dbMarker.score + 1;
+						infowindow.close();
+						Markers.update(marker.id, {
+                            $set: {
+                                score: 10
+                            }
+                        });
+						//infowindow.open(map.instance, marker);
+						
+					});
+					*/
+
                 },
                 changed: function(newDocument, oldDocument) {
                     markers[newDocument._id].setPosition({
@@ -91,9 +126,16 @@ if (Meteor.isClient) {
                     google.maps.event.clearInstanceListeners(markers[oldDocument._id]);
                     delete markers[oldDocument._id];
                 }
+				/*
+				document.getElementById("thumbup").addEventListener("click", function() {
+                alert("Hello World!");
+				});
+				*/
             });
+
         });
     });
+
     //client code
     Meteor.startup(function() {
         GoogleMaps.load();
