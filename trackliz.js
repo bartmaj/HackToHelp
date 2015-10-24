@@ -9,9 +9,9 @@ if (Meteor.isClient) {
                 Markers.insert({
                     lat: event.latLng.lat(),
                     lng: event.latLng.lng(),
-					score: 0,
-					issue_desc: "please describe the issue",
-					comments: "tell us about it",
+                    score: 0,
+                    issue_desc: "please describe the issue",
+                    comments: "tell us about it",
                 });
             });
 
@@ -32,8 +32,8 @@ if (Meteor.isClient) {
                         position: new google.maps.LatLng(document.lat, document.lng),
                         map: map.instance,
                         id: document._id
-                    });                   
-					
+                    });
+
                     google.maps.event.addListener(marker, 'dragend', function(event) {
                         Markers.update(marker.id, {
                             $set: {
@@ -42,27 +42,31 @@ if (Meteor.isClient) {
                             }
                         });
                     });
-					
+
 
                     markers[document._id] = marker;
-					
-					 //ADD marker listener here so that a new window can be popped up
-					 
-					var dbMarker = Markers.findOne(marker.id);
+
+                    //ADD marker listener here so that a new window can be popped up
+
+                    var dbMarker = Markers.findOne(marker.id);
                     var contentString = '<div id="content">' +
-					'<h1> Current Info:</h1>' +
-					'<p>Latitude: '+ dbMarker.lat + '</p>'+
-					'<p>Longitube: '+ dbMarker.lng + '</p>' +
-					'<p>Scores: '+ dbMarker.score + '</p>' +
-					'<p>-------------------------</p>' +
-					'Issue Description: <br>' +
-					'<input type="text" name="' + dbMarker.issue_desc + '"><br>' +
-					 '<form action="">' + 'Comments: <br>' + 
-					 '<textarea name="comments" rows="4" cols="30">' + 
-					 dbMarker.comments + '</textarea><br>' +
-					 '<input type="button" name="thumbup" value="Thumbup">' +
-					 '<input type="button" name="thumbdown" value="ThumbDown">' +
-					 '</form>"' + '</div>';
+                        '<div id="marker_info">' +
+                        '<h1> Current Info:</h1>' +
+                        '<p>Latitude: ' + dbMarker.lat + '</p>' +
+                        '<p>Longitube: ' + dbMarker.lng + '</p>' +
+                        '<p>Scores: ' + dbMarker.score + '</p>' +
+                        '<p>-------------------------</p>' +
+						'</div> ' +
+						'<form class="info_box">' +
+                        'Issue Description: <br>' +
+                        '<input type="text" name="' + dbMarker.issue_desc + '"><br>' +
+                        'Comments: <br>' +
+                        '<textarea name="comments" rows="4" cols="30">' +
+                        dbMarker.comments + '</textarea><br>' +
+                        '<input type="button" name="thumbup" value="Thumbup" >' +
+                        '<input type="button" name="thumbdown" value="ThumbDown" >' +
+                        '</form>"' +
+                        '</div>';
 
                     var infowindow = new google.maps.InfoWindow({
                         content: contentString
@@ -72,6 +76,37 @@ if (Meteor.isClient) {
                         infowindow.open(map.instance, marker);
                     });
 					
+					
+					infowindow.addEventListener('rightclick', function(){
+						infowindow.getElementById("thumbup").addEventListener("click", function() {
+							//alert("Hello World!");
+							infowindow.close();
+							Markers.update(marker.id, {
+								$set: {
+									score: 10
+								}
+							});
+							infowindow.open(map.instance, marker);
+						
+						});	
+						infowindow.close();
+					});
+					
+					/*
+					infowindow.getElementById("thumbup").addEventListener("click", function() {
+						//alert("Hello World!");
+						//dbMarker.score = dbMarker.score + 1;
+						infowindow.close();
+						Markers.update(marker.id, {
+                            $set: {
+                                score: 10
+                            }
+                        });
+						//infowindow.open(map.instance, marker);
+						
+					});
+					*/
+
                 },
                 changed: function(newDocument, oldDocument) {
                     markers[newDocument._id].setPosition({
@@ -84,9 +119,16 @@ if (Meteor.isClient) {
                     google.maps.event.clearInstanceListeners(markers[oldDocument._id]);
                     delete markers[oldDocument._id];
                 }
+				/*
+				document.getElementById("thumbup").addEventListener("click", function() {
+                alert("Hello World!");
+				});
+				*/
             });
+
         });
     });
+
     //client code
     Meteor.startup(function() {
         GoogleMaps.load();
@@ -114,56 +156,3 @@ if (Meteor.isServer) {
         // code to run on server at startup
     });
 }
-
-
-
-// This example displays a marker at the center of Australia.
-// When the user clicks the marker, an info window opens.
-/*
-
-function initMap() {
-    var uluru = {
-        lat: -25.363,
-        lng: 131.044
-    };
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: uluru
-    });
-
-    var contentString = '<div id="content">' +
-        '<div id="siteNotice">' +
-        '</div>' +
-        '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
-        '<div id="bodyContent">' +
-        '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-        'sandstone rock formation in the southern part of the ' +
-        'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) ' +
-        'south west of the nearest large town, Alice Springs; 450&#160;km ' +
-        '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major ' +
-        'features of the Uluru - Kata Tjuta National Park. Uluru is ' +
-        'sacred to the Pitjantjatjara and Yankunytjatjara, the ' +
-        'Aboriginal people of the area. It has many springs, waterholes, ' +
-        'rock caves and ancient paintings. Uluru is listed as a World ' +
-        'Heritage Site.</p>' +
-        '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-        'https://en.wikipedia.org/w/index.php?title=Uluru</a> ' +
-        '(last visited June 22, 2009).</p>' +
-        '</div>' +
-        '</div>';
-
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-
-    var marker = new google.maps.Marker({
-        position: uluru,
-        map: map,
-        title: 'Uluru (Ayers Rock)'
-    });
-    marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
-}
-
-*/
