@@ -4,25 +4,25 @@
 
 <body>
 	<div class="inner">
-            <nav>
-                <ul class="nav masthead-nav">
-                    <li class="active"><a href="#">Main</a></li>
-                    <li><a href="#">List of Issues</a></li>
-					<li><a href="#">My issues</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </nav>
-<div class="container">
-	{{> loginButtons}}
-		<h1>TrackLiz</h1>
+        <nav>
+            <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Main</a></li>
+                <li><a href="#">List of Issues</a></li>
+				<li><a href="#">My issues</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+		<div class="container">
+			{{> loginButtons}}
+				<h1>TrackLiz</h1>
 
-		{{> map}}
-		<div class="map-container">
-		  {{> googleMap name="map" options=exampleMapOptions}}
-		</div>
- </div>
-	<div class = "button">
-	<button type="button" style="background-color:white" class="btn btn-default btn-lg">Share something</button>
+				{{> map}}
+				<div class="map-container">
+				  {{> googleMap name="map" options=exampleMapOptions}}
+				</div>
+		 </div>
+		<div class = "button">
+			<button type="button" style="background-color:white" class="btn btn-default btn-lg">Submit</button>
 		</div>
 	</div>       
 </body>
