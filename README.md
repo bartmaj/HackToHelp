@@ -1,7 +1,7 @@
 # HackToHelp
 Application for Dominion Enterprises Hackathon
 
-Challenge: Potholes Management System
+Challenge: TrakLiz
 
 Date: October 23-24, 2015
 
@@ -10,8 +10,10 @@ Website: http://hackathon.dominionenterprises.com/
 Members: Bart, John, Hung, Minh, Sarah, Asim
 
 ####Motivation
+The goal of this app is to bring attention to issues and amenities located throughout the Elizabeth River Trail. 
 
 ####Approach
+The app contains a map of the Elizabeth River Trail. Users can select pinpoint locations on the map and add information about whether it is an issue or an amenity. Users can also vote on everyone else's updates. 
 
 ####Functions
 
