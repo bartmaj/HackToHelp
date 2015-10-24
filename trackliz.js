@@ -8,7 +8,10 @@ if (Meteor.isClient) {
                 //Store marker on database
                 Markers.insert({
                     lat: event.latLng.lat(),
-                    lng: event.latLng.lng()
+                    lng: event.latLng.lng(),
+					score: 0,
+					issue_desc: "please describe the issue",
+					comments: "tell us about it",
                 });
             });
 
@@ -30,9 +33,7 @@ if (Meteor.isClient) {
                         map: map.instance,
                         id: document._id
                     });                   
-
-
-
+					
                     google.maps.event.addListener(marker, 'dragend', function(event) {
                         Markers.update(marker.id, {
                             $set: {
@@ -41,6 +42,7 @@ if (Meteor.isClient) {
                             }
                         });
                     });
+					
 
                     markers[document._id] = marker;
 					
@@ -48,22 +50,25 @@ if (Meteor.isClient) {
 					 
 					var dbMarker = Markers.findOne(marker.id);
                     var contentString = '<div id="content">' +
-					'<h1> Current Info on this issue </h1>' +
+					'<h1> Current Info:</h1>' +
 					'<p>Latitude: '+ dbMarker.lat + '</p>'+
-					'<p>Longitube: '+ dbMarker.lng + '</p>' +			
-					'Issue Description: <input type="text" name="issue_desc"><br>' +
+					'<p>Longitube: '+ dbMarker.lng + '</p>' +
+					'<p>Scores: '+ dbMarker.score + '</p>' +
+					'<p>-------------------------</p>' +
+					'Issue Description: <br>' +
+					'<input type="text" name="' + dbMarker.issue_desc + '"><br>' +
 					 '<form action="">' + 'Comments: <br>' + 
 					 '<textarea name="comments" rows="4" cols="30">' + 
-					 'Tell us about it' + '</textarea><br>' +
-					 '<input type="button" name="thumpup" value="Thumbup">' +
-					 '<input type="button" name="thumpup" value="Thumbup">' +
+					 dbMarker.comments + '</textarea><br>' +
+					 '<input type="button" name="thumbup" value="Thumbup">' +
+					 '<input type="button" name="thumbdown" value="ThumbDown">' +
 					 '</form>"' + '</div>';
 
                     var infowindow = new google.maps.InfoWindow({
                         content: contentString
                     });
 
-                    marker.addListener('rightclick', function() {
+                    marker.addListener('mouseover', function() {
                         infowindow.open(map.instance, marker);
                     });
 					
