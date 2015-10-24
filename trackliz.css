@@ -1,27 +1,51 @@
+
+
 /* CSS declarations go here */
 
-body {
-  font-family: sans-serif;
-  background-color: #0000;
-  background-attachment: fixed;
-
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
+html {
   padding: 0;
-  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #1E1A0A;
+}
 
-  font-size: 14px;
+body{
+  margin-left: 55px;
+  margin-right: 55px;
+  font-family: Arial;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+  background-color: #220B1A;
+  
+}
+
+.masthead-nav > li {
+    padding-right: 35px;
+	padding-left: 0px;
+	display: inline-block;
+}
+
+.masthead-nav > li + li {
+    padding-right: 10 px;
+	padding-left: 5px;
+}
+
+.masthead-nav > li > a {
+    padding-right: 10 px;
+	padding-left:6px;
+    font-size: 16 px;
+    font-weight: bold;
+    color: #fff;
 }
 
 .container {
   max-width: 400px;
   margin: 0 auto;
   min-height: 100%;
-  background: green;
+  background: white;
+  border-style: solid;
+  border-width: 15px;
+  border-color: #DCB397;
 }
 
 .map-container {
@@ -35,4 +59,14 @@ h1 {
   margin-left: auto;
   margin-right: auto;
 	width: 6em
+}
+
+.button{
+	padding-top: 10px;
+	padding-bottom: 20px;
+	margin-bottom:10px;
+	width :60px;
+	height: 20px;
+	margin: 0 auto;
+	text-align: center;
 }
