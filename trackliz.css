@@ -2,21 +2,24 @@
 
 /* CSS declarations go here */
 
-html {
-  padding: 0;
+html , body{
   height: 100%;
   width: 100%;
-  background-color: #1E1A0A;
-}
-
-body{
-  margin-left: 55px;
-  margin-right: 55px;
+  margin: 0;
   font-family: Arial;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-  background-color: #220B1A;
+  background-color: white;
   
+}
+
+.inner{
+	background-color:#9bdecd;
+	width:60%;
+	margin-left:20%;
+	margin-right:20%;
+	padding-bottom:50px;
+	padding-top:50px;
 }
 
 .masthead-nav > li {
@@ -42,10 +45,10 @@ body{
   max-width: 400px;
   margin: 0 auto;
   min-height: 100%;
-  background: white;
+  background: #bebebe;
   border-style: solid;
   border-width: 15px;
-  border-color: #DCB397;
+  border-color: grey;
 }
 
 .map-container {
